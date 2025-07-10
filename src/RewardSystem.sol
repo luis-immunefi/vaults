@@ -33,15 +33,11 @@ contract RewardSystem is RewardSystemBase {
         address _vaultFreezer
     ) public initializer {
         __AccessControl_init();
-
-        require(_owner != address(0), "RewardSystem: owner cannot be 0x00");
-
         _setModule(_module);
         _setVaultDelegate(_vaultDelegate);
         _setArbitration(_arbitration);
         _setVaultFreezer(_vaultFreezer);
         _grantRole(DEFAULT_ADMIN_ROLE, _owner);
-
         emit RewardSystemSetup(msg.sender, _owner);
     }
 
