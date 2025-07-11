@@ -89,12 +89,6 @@ contract Arbitration is ArbitrationBase {
         });
         _addArbitrationIdToVault(vault, arbitrationId);
 
-        bytes32 inputHash = keccak256(encodeRequestArbFromWhitehatData(referenceId, vault));
-        require(
-            SignatureCheckerUpgradeable.isValidSignatureNow(whitehat, inputHash, signature),
-            "Arbitration: invalid request arbitration by whitehat signature"
-        );
-
         emit ArbitrationRequestedByWhitehat(referenceId, vault, whitehat);
 
         if (_feeAmount > 0) {
