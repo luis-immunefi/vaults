@@ -18,12 +18,12 @@ contract EmergencySystem is Ownable2Step, IEmergencySystemEvents {
         _transferOwnership(_owner);
     }
 
-    function activateEmergencyShutdown() external onlyOwner {
+    function activateEmergencyShutdown() external {
         emergencyShutdownActive = true;
         emit EmergencyShutdownActivated(msg.sender);
     }
 
-    function deactivateEmergencyShutdown() external onlyOwner {
+    function deactivateEmergencyShutdown() external {
         emergencyShutdownActive = false;
         emit EmergencyShutdownDeactivated(msg.sender);
     }
