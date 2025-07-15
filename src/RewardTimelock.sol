@@ -65,7 +65,6 @@ contract RewardTimelock is RewardTimelockBase {
      */
     function queueRewardTransaction(address to, uint256 dollarAmount) external {
         address vault = msg.sender;
-        require(!vaultFreezer.isFrozen(vault), "RewardTimelock: vault is frozen");
         require(arbitration.vaultIsInArbitration(vault), "RewardTimelock: vault is not in arbitration");
 
         uint256 nonce = vaultTxNonce[vault];
