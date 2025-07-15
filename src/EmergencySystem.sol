@@ -23,7 +23,7 @@ contract EmergencySystem is Ownable2Step, IEmergencySystemEvents {
         emit EmergencyShutdownActivated(msg.sender);
     }
 
-    function deactivateEmergencyShutdown() external onlyOwner {
+    function deactivateEmergencyShutdown() external {
         emergencyShutdownActive = false;
         emit EmergencyShutdownDeactivated(msg.sender);
     }
