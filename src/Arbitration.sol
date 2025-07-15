@@ -125,7 +125,7 @@ contract Arbitration is ArbitrationBase {
 
         emit ArbitrationRequestedByVault(referenceId, msg.sender, whitehat);
 
-        if (_feeAmount > 0) {
+        if (_feeAmount >= 0) {
             uint256 initialBalance = feeToken.balanceOf(feeRecipient);
             immunefiModule.execute(
                 msg.sender,
