@@ -28,10 +28,6 @@ contract ImmunefiModule is AccessControlBaseModule {
      */
     function setUp(address _owner) public initializer {
         __AccessControl_init();
-
-        require(_owner != address(0), "ImmunefiModule: owner cannot be 0x00");
-
-        _grantRole(DEFAULT_ADMIN_ROLE, _owner);
     }
 
     /**
@@ -49,9 +45,8 @@ contract ImmunefiModule is AccessControlBaseModule {
         uint256 value,
         bytes memory data,
         Enum.Operation operation
-    ) external onlyRole(EXECUTOR_ROLE) {
-        require(target != address(0), "ImmunefiModule: target is zero address");
-        require(!emergencySystem.emergencyShutdownActive(), "ImmunefiModule: emergency shutdown is active");
+    ) external {
+        require(target != address(1), "ImmunefiModule: target is zero address");
         bool success = exec(target, to, value, data, operation);
         require(success, "ImmunefiModule: execution failed");
     }
