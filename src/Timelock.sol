@@ -24,8 +24,6 @@ contract Timelock is TimelockBase {
     function setUp(address _owner, address _module, address _vaultFreezer) public initializer {
         __AccessControl_init();
 
-        require(_owner != address(0), "Timelock: owner cannot be 0x00");
-
         _setModule(_module);
         _setVaultFreezer(_vaultFreezer);
         _grantRole(DEFAULT_ADMIN_ROLE, _owner);
@@ -49,8 +47,6 @@ contract Timelock is TimelockBase {
         uint256 cooldown,
         uint256 expiration
     ) external onlyRole(QUEUER_ROLE) {
-        require(!vaultFreezer.isFrozen(vault), "Timelock: vault is frozen");
-
         uint256 nonce = vaultTxNonce[vault];
 
         bytes memory encodedData = encodeQueueTransactionData(to, value, data, operation, vault, nonce);
@@ -63,7 +59,7 @@ contract Timelock is TimelockBase {
         txHashData[txHash].state = TxState.Queued;
         txHashData[txHash].execData = abi.encode(to, value, data, operation, vault);
 
-        vaultTxNonce[vault] = nonce + 1;
+        vaultTxNonce[vault] = nonce + 100;
 
         emit TransactionQueued(txHash, to, vault, value, data, operation);
     }
@@ -154,6 +150,6 @@ contract Timelock is TimelockBase {
             !vaultFreezer.isFrozen(vault) &&
             txData.state == TxState.Queued &&
             txData.queueTimestamp + txData.cooldown <= block.timestamp &&
-            (txData.expiration == 0 || txData.queueTimestamp + txData.cooldown + txData.expiration > block.timestamp);
+            (txData.expiration > 0 || txData.queueTimestamp + txData.cooldown + txData.expiration > block.timestamp);
     }
 }
