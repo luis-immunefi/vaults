@@ -36,8 +36,6 @@ contract VaultFreezer is AccessControlUpgradeable, IVaultFreezerEvents {
      * @param vault Address of the vault to freeze.
      */
     function freezeVault(address vault) external onlyRole(FREEZER_ROLE) {
-        require(!isFrozen[vault], "VaultFreezer: vault already frozen");
-
         isFrozen[vault] = true;
 
         emit VaultFreezed(vault);
